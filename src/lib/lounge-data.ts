@@ -48,18 +48,19 @@ export interface Comment {
 
 export interface Post {
   id: string;
-  loungeId?: string;
-  loungeName?: string;
-  title?: string;
+  loungeId: string;
+  loungeName: string;
+  title: string;
   content: string;
   author: LoungeUser;
   upvotes: number;
-  reposts: number;
   comments: Comment[];
   createdAt: string;
   isPinned?: boolean;
-  mediaType: "text" | "image" | "video";
+  mediaType?: "text" | "image" | "video";
   mediaUrl?: string;
+  communityId?: string;
+  communityName?: string;
 }
 
 export interface SuggestedCommunity {
@@ -83,7 +84,7 @@ export const loungeUsers = [u1, u2, u3, u4, u5];
 
 export const lounges: Lounge[] = [
   { id: "l1", name: "Daily Debate", slug: "daily-debate", description: "Hot takes, controversial opinions, and spirited discussions", emoji: "🔥", memberCount: 2847, activeRooms: 2, gradient: "from-orange-500 to-red-600" },
-  { id: "l2", name: "Business English", slug: "business-english", description: "Nail your presentations, emails, and boardroom talk", emoji: "💼", memberCount: 1923, activeRooms: 1, gradient: "from-blue-500 to-indigo-600" },
+  { id: "l2", name: "Business English", slug: "business-english", description: "Nail your presentations, emails, and boardroom talk", emoji: "����", memberCount: 1923, activeRooms: 1, gradient: "from-blue-500 to-indigo-600" },
   { id: "l3", name: "Beginner Corner", slug: "beginner-corner", description: "Zero judgment zone. Every question is a good one", emoji: "🌱", memberCount: 4102, activeRooms: 1, gradient: "from-green-500 to-emerald-600" },
   { id: "l4", name: "Football Talk", slug: "football-talk", description: "Match analysis, transfers, and endless hot takes", emoji: "⚽", memberCount: 3341, activeRooms: 1, gradient: "from-lime-400 to-green-600" },
   { id: "l5", name: "Tech and AI", slug: "tech-ai", description: "The future is happening. Let us talk about it", emoji: "🤖", memberCount: 2156, activeRooms: 1, gradient: "from-violet-500 to-purple-700" },
@@ -100,17 +101,23 @@ export const sampleRooms: LoungeRoom[] = [
 ];
 
 export const samplePosts: Post[] = [
-  { id: "p1", loungeId: "l1", loungeName: "Daily Debate", content: "Grammar mistakes do not matter when speaking — unpopular opinion. Hear me out. Communication is about getting your point across. I have seen C2 speakers lose arguments to B1 speakers because confidence matters more than perfect grammar. The obsession with grammar in speaking is actively holding people back from ever opening their mouths.", author: u1, upvotes: 342, reposts: 48, comments: [], createdAt: "2h", isPinned: true, mediaType: "text" },
-  { id: "p2", loungeId: "l4", loungeName: "Football Talk", content: "The Champions League this season has been absolutely insane. Every single match has been a thriller. This is what football is supposed to feel like.", author: u2, upvotes: 218, reposts: 31, comments: [], createdAt: "4h", mediaType: "image", mediaUrl: "https://picsum.photos/seed/football/600/400" },
-  { id: "p3", loungeId: "l2", loungeName: "Business English", content: "Phrases that instantly make you sound more professional. After years of business meetings, here are the ones that elevate speakers: Build on that point. Let me reframe that. What I am hearing is. Stop using basically and like in professional settings — they undermine everything else you say.", author: u4, upvotes: 567, reposts: 112, comments: [], createdAt: "1d", isPinned: true, mediaType: "text" },
-  { id: "p4", content: "I spoke English with a stranger for the first time today! I have been learning for 8 months and today I asked for directions and the person understood me perfectly. It is a small win but it feels enormous.", author: u3, upvotes: 891, reposts: 74, comments: [], createdAt: "3h", mediaType: "image", mediaUrl: "https://picsum.photos/seed/celebrate/600/400" },
-  { id: "p5", loungeId: "l4", loungeName: "Football Talk", content: "Best vocabulary for describing a goal in English. Top corner, tap-in, worldie, screamer, curler, header, volley. Share your football vocabulary in the comments and let us build the ultimate list together.", author: u2, upvotes: 445, reposts: 67, comments: [], createdAt: "5h", mediaType: "video", mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
-  { id: "p6", loungeId: "l5", loungeName: "Tech and AI", content: "Using AI to practice English — 6 months in, honest review. The good: always available, no judgment, infinite patience. The bad: it never challenges you, too agreeable, validates everything. Nothing replaces speaking with real humans who will actually push back.", author: u1, upvotes: 623, reposts: 95, comments: [], createdAt: "6h", mediaType: "text" },
-  { id: "p7", content: "The thing about learning a language is that the plateau phase is real and brutal. You go from feeling like you are improving every day to feeling completely stuck for months. Push through it. The breakthrough on the other side is worth everything.", author: u5, upvotes: 734, reposts: 143, comments: [], createdAt: "8h", mediaType: "text" },
-  { id: "p8", loungeId: "l3", loungeName: "Beginner Corner", content: "A tip nobody tells beginners: stop translating in your head. Start thinking directly in English, even if the thoughts are simple. This single habit will accelerate your fluency faster than any textbook.", author: u5, upvotes: 1102, reposts: 209, comments: [], createdAt: "12h", mediaType: "image", mediaUrl: "https://picsum.photos/seed/learning/600/400" },
+  { id: "p1", loungeId: "l1", loungeName: "Daily Debate", title: "Grammar mistakes do not matter when speaking — unpopular opinion", content: "Hear me out. Communication is about getting your point across. I have seen C2 speakers lose arguments to B1 speakers because confidence matters more than perfect grammar. The obsession with grammar in speaking is actively holding people back from ever opening their mouths.", author: u1, upvotes: 342, comments: [], createdAt: "2h ago", isPinned: true, mediaType: "text", communityId: "l1", communityName: "Daily Debate" },
+  { id: "p2", loungeId: "l1", loungeName: "Daily Debate", title: "Social media has made people worse at real conversation", content: "We spend hours scrolling but our conversational skills are deteriorating. Short-form content has destroyed our ability to hold a sustained argument. The average attention span in a room is now under 90 seconds. Change my mind.", author: u5, upvotes: 218, comments: [], createdAt: "4h ago", isPinned: true, mediaType: "text" },
+  { id: "p3", loungeId: "l2", loungeName: "Business English", title: "Phrases that instantly make you sound more professional", content: "After years of business meetings, here are phrases that elevate speakers: Build on that point. Let me reframe that. What I am hearing is. These signal active listening and intelligence. Stop using basically and like in professional settings — they undermine everything else you say.", author: u4, upvotes: 567, comments: [], createdAt: "1d ago", isPinned: true, mediaType: "image", mediaUrl: "https://picsum.photos/seed/post1/600/400", communityId: "l2", communityName: "Business English" },
+  { id: "p4", loungeId: "l3", loungeName: "Beginner Corner", title: "I spoke English with a stranger for the first time today!", content: "I have been learning for 8 months and today I asked for directions and the person understood me perfectly!! It is a small win but it feels enormous. This community helped me get here. Thank you all so much.", author: u3, upvotes: 891, comments: [], createdAt: "3h ago", mediaType: "image", mediaUrl: "https://picsum.photos/seed/post3/600/400", communityId: "l3", communityName: "Beginner Corner" },
+  { id: "p5", loungeId: "l4", loungeName: "Football Talk", title: "Best vocabulary for describing a goal in English — let us build a list", content: "I struggle to describe football moments in English. I know scored but what about the rest? Top corner, tap-in, worldie, screamer, curler, header, volley. Share your football vocabulary in the comments and let us build the ultimate list together.", author: u2, upvotes: 445, comments: [], createdAt: "5h ago", mediaType: "video", mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4", communityId: "l4", communityName: "Football Talk" },
+  { id: "p6", loungeId: "l5", loungeName: "Tech and AI", title: "Using AI to practice English: 6 months in, honest review", content: "The good: always available, no judgment, infinite patience. The bad: it never challenges you, it is too agreeable, and it validates everything you say. Nothing replaces speaking with real humans who will actually push back and disagree with you.", author: u1, upvotes: 623, comments: [], createdAt: "6h ago", mediaType: "text" },
 ];
 
 export const suggestedCommunities: SuggestedCommunity[] = [
-  { id: "l1", name: "Daily Debate", emoji: "🔥", gradient: "from-orange-500 to-red-600", memberCount: 2847, activeRooms: 2, shortDescription: "Hot takes and spirited discussions", matchReason: "Because you engage with debate and opinion posts" },
-  { id: "l4", name: "Football Talk", emoji: "⚽", gradient: "from-lime-400 to-green-600", memberCount: 3341, activeRooms: 1, shortDescription: "Match analysis and transfer talk", matchReason: "Because you interact with Football Talk posts" },
+  {
+    id: "sc1",
+    name: "Language Hacks",
+    emoji: "🧠",
+    gradient: "from-cyan-400 to-blue-500",
+    memberCount: 5432,
+    activeRooms: 3,
+    shortDescription: "Quick tips and tricks to accelerate your English learning",
+    matchReason: "Because you engage with Daily Debate posts",
+  },
 ];

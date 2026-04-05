@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { GlobalLayout } from "@/components/GlobalLayout";
 import HomePage from "./pages/HomePage";
 import ExplorePage from "./pages/ExplorePage";
 import RoomsPage from "./pages/RoomsPage";
@@ -15,23 +17,33 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function AppInner() {
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  return (
+    <GlobalLayout panelOpen={panelOpen} onPanelClose={() => setPanelOpen(false)}>
+      <Routes>
+        <Route path="/"            element={<HomePage      onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="/explore"     element={<ExplorePage   onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="/rooms"       element={<RoomsPage     onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="/community"   element={<CommunityPage onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="/games"       element={<GamesPage     onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="/room/:id"    element={<VoiceRoomPage onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="/lounge/:id"  element={<LoungePage    onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="/profile"     element={<ProfilePage   onMenuOpen={() => setPanelOpen(true)} />} />
+        <Route path="*"            element={<NotFound />} />
+      </Routes>
+    </GlobalLayout>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/explore" element={<ExplorePage />} />
-          <Route path="/rooms" element={<RoomsPage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/games" element={<GamesPage />} />
-          <Route path="/room/:id" element={<VoiceRoomPage />} />
-          <Route path="/lounge/:id" element={<LoungePage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppInner />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
