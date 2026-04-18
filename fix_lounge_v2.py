@@ -1,4 +1,14 @@
-import { useState, useRef } from "react";
+#!/usr/bin/env python3
+"""Run from your Elova project root: python3 fix_lounge_v2.py"""
+import os
+
+def w(path, content):
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"✓ {path}")
+
+LOUNGE = r'''import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Users, Mic, ChevronUp, ChevronDown,
@@ -766,3 +776,8 @@ export default function LoungePage({ onMenuOpen = () => {} }: { onMenuOpen?: () 
     </div>
   );
 }
+'''
+
+w("src/pages/LoungePage.tsx", LOUNGE)
+print("\n✅ Done! Run: npm run dev")
+print("   Chat tab removed. Forums rebuilt with Elova identity.")

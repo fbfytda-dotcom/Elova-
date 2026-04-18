@@ -1,4 +1,14 @@
+#!/usr/bin/env python3
+"""Run from your Elova project root: python3 fix_explore.py"""
+import os
 
+def w(path, content):
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"✓ {path}")
+
+w("src/pages/ExplorePage.tsx", r'''
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -387,3 +397,7 @@ export default function ExplorePage({ onMenuOpen = () => {} }: ExplorePageProps)
     </div>
   );
 }
+''')
+
+print("\n✅ Done! Run: npm run dev")
+print("   Then click 'Global Rooms' in the left panel to see the new page.")

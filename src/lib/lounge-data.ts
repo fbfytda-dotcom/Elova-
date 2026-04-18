@@ -121,3 +121,87 @@ export const suggestedCommunities: SuggestedCommunity[] = [
     matchReason: "Because you engage with Daily Debate posts",
   },
 ];
+
+// ─── Chat System Types ─────────────────────────────────────────────────
+
+export interface ChatReaction {
+  emoji: string;
+  count: number;
+  reacted: boolean; // did current user react
+}
+
+export interface ChatMessage {
+  id: string;
+  channelId: string;
+  author: LoungeUser;
+  content: string;
+  timestamp: string; // ISO-like display string
+  reactions: ChatReaction[];
+  replyTo?: { id: string; author: LoungeUser; content: string };
+  attachmentUrl?: string;
+  isSystem?: boolean;
+}
+
+export interface ChatChannel {
+  id: string;
+  name: string;
+  description: string;
+  emoji: string;
+  unreadCount: number;
+  category: string;
+}
+
+// ─── Mock Channels (shared template, per-lounge) ────────────────────────
+
+export const mockChannels: ChatChannel[] = [
+  { id: "ch-general",       name: "general",          description: "Talk about anything and everything",                    emoji: "💬", unreadCount: 3,  category: "TEXT CHANNELS" },
+  { id: "ch-introductions", name: "introductions",    description: "Say hi and tell us about yourself",                     emoji: "👋", unreadCount: 0,  category: "TEXT CHANNELS" },
+  { id: "ch-resources",     name: "study-resources",  description: "Share helpful links, books, and tools",                 emoji: "📚", unreadCount: 1,  category: "TEXT CHANNELS" },
+  { id: "ch-off-topic",     name: "off-topic",        description: "Memes, random thoughts, and fun stuff",                emoji: "🎲", unreadCount: 5,  category: "TEXT CHANNELS" },
+  { id: "ch-voice-text",    name: "voice-chat",       description: "Text companion for voice rooms",                       emoji: "🎙️", unreadCount: 0,  category: "VOICE TEXT" },
+  { id: "ch-announcements", name: "announcements",    description: "Important updates and community news",                 emoji: "📢", unreadCount: 0,  category: "INFORMATION" },
+];
+
+// ─── Mock Chat Messages ─────────────────────────────────────────────────
+
+export const mockChatMessages: ChatMessage[] = [
+  // ── #general channel ──
+  { id: "cm1",  channelId: "ch-general", author: u5, content: "Good morning everyone! Who is ready for today's debate topic? 🔥", timestamp: "Today at 9:02 AM", reactions: [{ emoji: "🔥", count: 4, reacted: false }, { emoji: "👋", count: 2, reacted: true }], },
+  { id: "cm2",  channelId: "ch-general", author: u1, content: "I have been thinking about this all night. The topic about AI replacing jobs is way more nuanced than people make it out to be.", timestamp: "Today at 9:05 AM", reactions: [{ emoji: "💯", count: 3, reacted: false }], },
+  { id: "cm3",  channelId: "ch-general", author: u2, content: "Agree! I think the real question is not whether AI takes jobs but whether we adapt fast enough.", timestamp: "Today at 9:06 AM", reactions: [], replyTo: { id: "cm2", author: u1, content: "I have been thinking about this all night..." }, },
+  { id: "cm4",  channelId: "ch-general", author: u1, content: "Exactly. And the language learning space is a perfect example — AI tools help but they cannot replace real conversation practice.", timestamp: "Today at 9:07 AM", reactions: [{ emoji: "👏", count: 5, reacted: true }, { emoji: "🎯", count: 2, reacted: false }], },
+  { id: "cm5",  channelId: "ch-general", author: u4, content: "Just joined the room! What did I miss?", timestamp: "Today at 9:15 AM", reactions: [{ emoji: "👋", count: 3, reacted: false }], },
+  { id: "cm6",  channelId: "ch-general", author: u5, content: "We were just warming up! The debate room opens in 15 minutes. Anyone want to volunteer as first speaker?", timestamp: "Today at 9:16 AM", reactions: [], },
+  { id: "cm7",  channelId: "ch-general", author: u3, content: "I am too nervous to go first but I will definitely participate 😅", timestamp: "Today at 9:18 AM", reactions: [{ emoji: "❤️", count: 4, reacted: true }, { emoji: "💪", count: 2, reacted: false }], },
+  { id: "cm8",  channelId: "ch-general", author: u1, content: "No pressure! That is what this community is about. Everyone speaks at their own pace.", timestamp: "Today at 9:19 AM", reactions: [{ emoji: "🙌", count: 6, reacted: false }], replyTo: { id: "cm7", author: u3, content: "I am too nervous to go first..." }, },
+  { id: "cm9",  channelId: "ch-general", author: u2, content: "I remember my first time speaking here — my voice was shaking the entire time. Now I host rooms! You will get there.", timestamp: "Today at 9:21 AM", reactions: [{ emoji: "🥹", count: 3, reacted: false }, { emoji: "💯", count: 4, reacted: true }], },
+  { id: "cm10", channelId: "ch-general", author: u4, content: "Has anyone tried the new shadowing technique Chen shared last week? I have been practicing with BBC podcasts and it is actually working.", timestamp: "Today at 9:30 AM", reactions: [{ emoji: "👀", count: 2, reacted: false }], },
+  { id: "cm11", channelId: "ch-general", author: u5, content: "Yes! The key is to not pause — just keep repeating even if you miss words. Your brain fills in the gaps over time.", timestamp: "Today at 9:32 AM", reactions: [{ emoji: "🧠", count: 5, reacted: false }, { emoji: "📝", count: 1, reacted: false }], replyTo: { id: "cm10", author: u4, content: "Has anyone tried the new shadowing technique..." }, },
+  { id: "cm12", channelId: "ch-general", author: u1, content: "Debate room is live now! Topic: \"Social media has made us worse communicators\" — join if you are ready 🎙️", timestamp: "Today at 9:45 AM", reactions: [{ emoji: "🔥", count: 7, reacted: true }, { emoji: "🎙️", count: 3, reacted: false }], },
+  { id: "cm-sys1", channelId: "ch-general", author: u3, content: "James Wilson joined the community. Welcome! 🎉", timestamp: "Today at 8:30 AM", reactions: [], isSystem: true },
+
+  // ── #introductions channel ──
+  { id: "cm20", channelId: "ch-introductions", author: u3, content: "Hi everyone! I am James from London. I have been learning English for about 6 months now. My native language is Mandarin and I am aiming for B1 by the end of this year. I love football and technology! Happy to be here 🙌", timestamp: "Yesterday at 3:15 PM", reactions: [{ emoji: "👋", count: 5, reacted: true }, { emoji: "❤️", count: 3, reacted: false }, { emoji: "⚽", count: 2, reacted: false }], },
+  { id: "cm21", channelId: "ch-introductions", author: u5, content: "Welcome James! Great to have you here. If you need any help, don't hesitate to ask in #general. We are all here to support each other.", timestamp: "Yesterday at 3:22 PM", reactions: [{ emoji: "🙏", count: 2, reacted: false }], replyTo: { id: "cm20", author: u3, content: "Hi everyone! I am James from London..." }, },
+  { id: "cm22", channelId: "ch-introductions", author: u2, content: "Another football fan! You should definitely check out the Football Talk lounge. We do live match commentary rooms in English — it is the best way to learn sports vocabulary.", timestamp: "Yesterday at 3:30 PM", reactions: [{ emoji: "⚽", count: 3, reacted: false }, { emoji: "💯", count: 1, reacted: false }], },
+
+  // ── #study-resources channel ──
+  { id: "cm30", channelId: "ch-resources", author: u4, content: "Here is a list of podcasts I use for shadowing practice:\n\n1. BBC Learning English (beginner-friendly)\n2. All Ears English (intermediate)\n3. The English We Speak (short episodes)\n4. 6 Minute English (perfect length)\n\nAll free and amazing quality!", timestamp: "Today at 7:30 AM", reactions: [{ emoji: "🔖", count: 8, reacted: true }, { emoji: "🙏", count: 5, reacted: false }, { emoji: "📚", count: 3, reacted: false }], },
+  { id: "cm31", channelId: "ch-resources", author: u1, content: "Adding to this — for advanced learners, try \"Philosophize This!\" podcast. Complex vocabulary, abstract concepts, and it forces you to think in English.", timestamp: "Today at 7:45 AM", reactions: [{ emoji: "🧠", count: 4, reacted: false }], replyTo: { id: "cm30", author: u4, content: "Here is a list of podcasts I use..." }, },
+  { id: "cm32", channelId: "ch-resources", author: u3, content: "Thank you so much for these! I have been looking for good listening resources.", timestamp: "Today at 8:10 AM", reactions: [{ emoji: "❤️", count: 2, reacted: false }], },
+
+  // ── #off-topic channel ──
+  { id: "cm40", channelId: "ch-off-topic", author: u2, content: "What is everyone having for lunch today? I need inspiration 🍕", timestamp: "Today at 12:01 PM", reactions: [{ emoji: "🍕", count: 3, reacted: false }, { emoji: "🍣", count: 2, reacted: true }], },
+  { id: "cm41", channelId: "ch-off-topic", author: u1, content: "I just had the most amazing ramen. Learning food vocabulary in English is underrated — it is actual useful daily conversation.", timestamp: "Today at 12:05 PM", reactions: [{ emoji: "🍜", count: 4, reacted: false }, { emoji: "😂", count: 1, reacted: false }], },
+  { id: "cm42", channelId: "ch-off-topic", author: u4, content: "Fun fact: the word \"ketchup\" originally comes from a Chinese word. English steals vocabulary from everywhere 😄", timestamp: "Today at 12:10 PM", reactions: [{ emoji: "🤯", count: 6, reacted: true }, { emoji: "📖", count: 2, reacted: false }], },
+  { id: "cm43", channelId: "ch-off-topic", author: u5, content: "Speaking of food words — who can explain the difference between \"cuisine\" and \"food\"? Both mean the same thing but feel totally different.", timestamp: "Today at 12:15 PM", reactions: [{ emoji: "🤔", count: 3, reacted: false }], },
+  { id: "cm44", channelId: "ch-off-topic", author: u3, content: "Cuisine sounds fancy, food sounds normal? Like \"I love Italian cuisine\" vs \"I love Italian food\"?", timestamp: "Today at 12:18 PM", reactions: [{ emoji: "💯", count: 5, reacted: false }, { emoji: "🎯", count: 3, reacted: true }], replyTo: { id: "cm43", author: u5, content: "Speaking of food words..." }, },
+
+  // ── #voice-chat channel ──
+  { id: "cm50", channelId: "ch-voice-text", author: u1, content: "Anyone in the debate room right now? Cannot unmute because I am on the train 🚂", timestamp: "Today at 10:00 AM", reactions: [], },
+  { id: "cm51", channelId: "ch-voice-text", author: u5, content: "Yes! We are discussing whether accent matters more than grammar. Come listen!", timestamp: "Today at 10:02 AM", reactions: [{ emoji: "🎧", count: 2, reacted: false }], },
+
+  // ── #announcements channel ──
+  { id: "cm60", channelId: "ch-announcements", author: u5, content: "📢 **Weekly Speaking Challenge**\n\nThis week's topic: Describe your ideal weekend using at least 5 new vocabulary words.\n\nRecord yourself in any voice room and tag it with #WeeklyChallenge. Winner gets a special badge! 🏆\n\nDeadline: Sunday 11:59 PM", timestamp: "Monday at 9:00 AM", reactions: [{ emoji: "🏆", count: 12, reacted: true }, { emoji: "🔥", count: 8, reacted: false }, { emoji: "💪", count: 5, reacted: false }], },
+  { id: "cm61", channelId: "ch-announcements", author: u5, content: "🎉 **New Feature: Forums!**\n\nYou can now create long-form discussion threads in the Forums tab. Perfect for questions that deserve detailed answers.\n\nCheck it out and start a thread!", timestamp: "Last Wednesday at 2:00 PM", reactions: [{ emoji: "🎉", count: 15, reacted: false }, { emoji: "👏", count: 9, reacted: true }], },
+];

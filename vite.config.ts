@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     host: "::",
     port: 8080,
+    allowedHosts: true, // <--- This works perfectly in .ts files
     hmr: {
       overlay: false,
     },
